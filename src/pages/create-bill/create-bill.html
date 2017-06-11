@@ -1,0 +1,44 @@
+
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Create New Bill</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content padding>
+
+  <ion-list>
+    <ion-item><p class="photo"><button ion-button (click)="takePhoto()"><ion-icon name="camera" class="pic"></ion-icon>&nbsp; Customer Picture</button></p></ion-item> 
+    <ion-input [(ngModel)]="fullname" type="text" placeholder="Customer Full Name"></ion-input>
+    <ion-input [(ngModel)]="mobile"  type="number" placeholder="Mobile Number"></ion-input>
+
+    <ion-item>
+      <ion-label>Purchase Date</ion-label>
+      <ion-datetime displayFormat="D MM, YY" [(ngModel)]="purchaseDate"></ion-datetime>
+    </ion-item>
+    <ion-item>
+      <ion-label>Due Date</ion-label>
+      <ion-datetime displayFormat="D MM, YY" [(ngModel)]="dueDate"></ion-datetime>
+    </ion-item>
+  
+  <div text-center><button ion-button small full color="secondary" center (click)="addItems()">Add Purchase Items</button></div>    
+    <ion-label center>Items Added</ion-label>    
+    <ion-item>Total Bill Value: Rs. {{getTotal()}}</ion-item>
+    <ion-item *ngFor="let item of itemList | async" (click)="showOptions(item.$key, item.name, item.quantity, item.units, item.price)" #slidingItem>      
+        <ion-col>{{item.name}}</ion-col>
+        <ion-col>{{item.quantity}} </ion-col>
+        <ion-col>{{item.units}} </ion-col>
+        <ion-col>Rs. {{item.price}}</ion-col>      
+    </ion-item>
+   
+    <ion-item class="reg_terms">
+       <ion-checkbox secondary #terms  value="" checked="false" ></ion-checkbox>
+       <ion-label>I accept the <a href="#">Terms & Conditions</a></ion-label>
+    </ion-item>
+    <button ion-button full type="submit" (click)="saveBill(fullname, mobile, total, purchaseDate, dueDate, location, terms)">Save Bill</button>
+    
+  </ion-list>
+
+</ion-content>
