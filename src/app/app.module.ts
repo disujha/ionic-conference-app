@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpModule } from '@angular/http';
 import { NgModule, ErrorHandler } from '@angular/core';
 
-import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
+import { ActionSheetController, AlertController, IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 
 import { InAppBrowser } from '@ionic-native/in-app-browser';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -25,9 +25,24 @@ import { SpeakerListPage } from '../pages/speaker-list/speaker-list';
 import { TabsPage } from '../pages/tabs/tabs';
 import { TutorialPage } from '../pages/tutorial/tutorial';
 import { SupportPage } from '../pages/support/support';
+import { CreateBillPage } from '../pages/create-bill/create-bill';
+import { BillListPage } from '../pages/bill-list/bill-list';
 
 import { ConferenceData } from '../providers/conference-data';
 import { UserData } from '../providers/user-data';
+
+import { FirebaseProvider } from '../providers/firebase/firebase';
+import { AngularFireModule} from 'angularfire2';
+import {AngularFireDatabase, FirebaseListObservable} from 'angularfire2/database';
+
+export const firebaseConfig = {
+    apiKey: "AIzaSyAJ7fGymTk3qJtN-ex4mvdTEd2GFJKtL6w",
+    authDomain: "forumapp-fac8b.firebaseapp.com",
+    databaseURL: "https://forumapp-fac8b.firebaseio.com",
+    projectId: "forumapp-fac8b",
+    storageBucket: "forumapp-fac8b.appspot.com",
+    messagingSenderId: "496236809216"
+  };
 
 
 @NgModule({
@@ -46,11 +61,14 @@ import { UserData } from '../providers/user-data';
     SpeakerListPage,
     TabsPage,
     TutorialPage,
-    SupportPage
+    SupportPage,
+    CreateBillPage,
+    BillListPage
   ],
   imports: [
     BrowserModule,
     HttpModule,
+    AngularFireModule.initializeApp(firebaseConfig),
     IonicModule.forRoot(ConferenceApp, {}, {
       links: [
         { component: TabsPage, name: 'TabsPage', segment: 'tabs' },
@@ -86,14 +104,21 @@ import { UserData } from '../providers/user-data';
     SpeakerListPage,
     TabsPage,
     TutorialPage,
-    SupportPage
+    SupportPage,
+    CreateBillPage,
+    BillListPage
   ],
   providers: [
     { provide: ErrorHandler, useClass: IonicErrorHandler },
     ConferenceData,
+    FirebaseProvider,
     UserData,
     InAppBrowser,
-    SplashScreen
+    SplashScreen,
+    FirebaseProvider,
+    ActionSheetController,
+    AngularFireDatabase
+    
   ]
 })
 export class AppModule { }
